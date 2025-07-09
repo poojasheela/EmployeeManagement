@@ -4,6 +4,7 @@ import com.core.EmployeeManagement.Employee;
 import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.exception.EmployeeNotFoundException;
 import com.core.EmployeeManagement.mapper.EmployeeMapper;
+import com.core.EmployeeManagement.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,9 +15,11 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
         private final EmployeeMapper mapper;
         private final List<Employee> employeeStore;
+    private final EmployeeRepository employeeRepository;
 
-        public EmployeeServiceImpl(EmployeeMapper mapper) {
+        public EmployeeServiceImpl(EmployeeMapper mapper, EmployeeRepository employeeRepository) {
             this.mapper = mapper;
+            this.employeeRepository = employeeRepository;
             this.employeeStore = new ArrayList<>();
             initializeEmployees();
         }
@@ -51,8 +54,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         @Override
         public EmployeeDTO createEmployee(EmployeeDTO dto) {
             Employee emp = mapper.toEntity(dto);
-            emp.setId(employeeStore.size() + 1); // Simple ID generation, replace with a better approach for production
+            emp.setId(employeeStore.size() + 1);
             employeeStore.add(emp);
             return mapper.toDTO(emp);
         }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesByDomain() {
+
+        List<Employee> employees = employeeRepository.findEmployeesByEmailDomain("@qrs.com");
+        return mapper.toDTOList(employees);
     }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesByName(String name) {
+
+        List<Employee> employees = employeeRepository.findEmployeesByName(name);
+        return mapper.toDTOList(employees);
+    }
+
+}

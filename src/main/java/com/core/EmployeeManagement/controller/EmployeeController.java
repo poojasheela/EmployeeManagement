@@ -37,9 +37,20 @@ public class EmployeeController {
         @PostMapping("/post")
         public ResponseEntity<Object> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
             if (bindingResult.hasErrors()) {
-                return new ResponseEntity<>(bindingResult.getFieldErrors(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<Object>(bindingResult.getFieldErrors(), HttpStatus.BAD_REQUEST);
             }
             EmployeeDTO employeeDTO = new EmployeeDTO(employee.getName(), employee.getEmail());
             return ResponseEntity.ok(service.createEmployee(employeeDTO));
         }
+    @GetMapping("/get/domain/qrs")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByDomain() {
+        List<EmployeeDTO> employees = service.getEmployeesByDomain();
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping("/get/name/{name}")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByName(@PathVariable String name) {
+        List<EmployeeDTO> employees = service.getEmployeesByName(name);
+        return ResponseEntity.ok(employees);
+    }
     }

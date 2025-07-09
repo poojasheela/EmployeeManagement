@@ -8,6 +8,8 @@ public interface EmployeeService {
         List<EmployeeDTO> getAllEmployees();
         List<EmployeeDTO> getEmployeesByQrsDomain();
         EmployeeDTO createEmployee(EmployeeDTO dto);
-    }
+    List<EmployeeDTO> getEmployeesByDomain();
+    List<EmployeeDTO> getEmployeesByName(String name);
+}
 
 

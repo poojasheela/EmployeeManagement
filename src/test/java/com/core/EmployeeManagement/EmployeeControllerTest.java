@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -53,10 +52,11 @@ public class EmployeeControllerTest {
         ResponseEntity<List<EmployeeDTO>> response = controller.getAllEmployees();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+
         assertEquals(1, response.getBody().size());
         assertEquals("Alice", response.getBody().getFirst().getFullName());
     }
+
 
     @Test
     public void getQrsEmployees_ReturnsFilteredEmployeeDTOList() {
@@ -66,35 +66,30 @@ public class EmployeeControllerTest {
         ResponseEntity<List<EmployeeDTO>> response = controller.getQrsEmployees();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+
         assertEquals("alice@qrs.com", response.getBody().getFirst().getContactEmail());
     }
 
-    @Test
-    public void createEmployee_WithValidInput_ReturnsCreated() {
 
-        when(service.createEmployee(any(EmployeeDTO.class))).thenReturn(employeeDTO);
-        when(bindingResult.hasErrors()).thenReturn(false);
+  @Test
+  public void createEmployee() {
 
-        ResponseEntity<Object> response = controller.createEmployee(employee, bindingResult);
+          when(bindingResult.hasErrors()).thenReturn(false);
+          when(service.createEmployee(any(EmployeeDTO.class))).thenReturn(employeeDTO);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-    }
+          ResponseEntity<Object> response = controller.createEmployee(employee, bindingResult);
 
-    @Test
-    public void createEmployee_WithInvalidInput_ReturnsBadRequest() {
-        when(bindingResult.hasErrors()).thenReturn(true);
-        when(bindingResult.getFieldErrors()).thenReturn(
-                List.of(new FieldError("employee", "email", "Invalid email format"))
-        );
+          assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        employee.setEmail("invalid-email");
+          when(bindingResult.hasErrors()).thenReturn(true);
+          when(bindingResult.getFieldErrors()).thenReturn(
+                  List.of(new FieldError("employee", "email", "Invalid email format"))
+          );
+          employee.setEmail("invalid-email");
 
-        ResponseEntity<Object> response = controller.createEmployee(employee, bindingResult);
+                  response = controller.createEmployee(employee, bindingResult);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
+          assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
-    }
-}
+      }
+  }

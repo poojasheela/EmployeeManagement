@@ -1,6 +1,13 @@
 package com.core.EmployeeManagement;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Employee {
+    @Id
+    @GeneratedValue
         private int id;
         private String name;
         private String email;
@@ -48,3 +55,4 @@ public class Employee {
         this.id = id;
     }
 }
+
