@@ -4,6 +4,11 @@ import com.core.EmployeeManagement.Employee;
 import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -53,4 +58,15 @@ public class EmployeeController {
         List<EmployeeDTO> employees = service.getEmployeesByName(name);
         return ResponseEntity.ok(employees);
     }
-    }
+
+   @GetMapping("/page/")
+   public Page<EmployeeDTO> getAll(
+           @RequestParam(defaultValue = "0") int page,
+           @RequestParam(defaultValue = "10") int size,
+           @RequestParam(defaultValue = "id") String sortBy) {
+
+       Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+       return service.getAll(pageable);
+   }
+
+}
