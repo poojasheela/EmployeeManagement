@@ -1,26 +1,28 @@
 package com.core.EmployeeManagement;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 public class Employee {
     @Id
     @GeneratedValue
-        private int id;
-        private String name;
-        private String email;
-        private String password;
+    private int id;
+    private String name;
+    private String email;
+    private String password;
 
-        public Employee() {}
+    public Employee() {}
 
-        public Employee(int id, String name, String email, String password) {
-            this.id = id;
-            this.name = name;
-            this.email = email;
-            this.password = password;
-        }
+    public Employee(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
 
     public String getPassword() {
@@ -55,4 +57,3 @@ public class Employee {
         this.id = id;
     }
 }
-

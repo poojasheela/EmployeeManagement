@@ -1,25 +1,24 @@
 package com.core.EmployeeManagement.service;
-
 import com.core.EmployeeManagement.Employee;
 import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.exception.EmployeeNotFoundException;
 import com.core.EmployeeManagement.mapper.EmployeeMapper;
 import com.core.EmployeeManagement.repository.EmployeeRepository;
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Service
 public  class EmployeeServiceImpl implements EmployeeService {
-        private final EmployeeMapper mapper;
-        private final List<Employee> employeeStore;
+    private final EmployeeMapper mapper;
+    private final List<Employee> employeeStore;
     private final EmployeeRepository employeeRepository;
+
 
         public EmployeeServiceImpl(EmployeeMapper mapper, EmployeeRepository employeeRepository) {
             this.mapper = mapper;
@@ -59,31 +58,32 @@ public  class EmployeeServiceImpl implements EmployeeService {
         public EmployeeDTO createEmployee(EmployeeDTO dto) {
             Employee emp = mapper.toEntity(dto);
             emp.setId(employeeStore.size() + 1);
+            emp.setId(employeeStore.size() + 1);
             employeeStore.add(emp);
             return mapper.toDTO(emp);
         }
 
-    @Override
-    public List<EmployeeDTO> getEmployeesByDomain() {
+        @Override
+        public List<EmployeeDTO> getEmployeesByDomain() {
 
-        List<Employee> employees = employeeRepository.findEmployeesByEmailDomain("@qrs.com");
-        return mapper.toDTOList(employees);
+            List<Employee> employees = employeeRepository.findEmployeesByEmailDomain("@qrs.com");
+            return mapper.toDTOList(employees);
+        }
+
+        @Override
+        public List<EmployeeDTO> getEmployeesByName(String name) {
+
+            List<Employee> employees = employeeRepository.findEmployeesByName(name);
+            return mapper.toDTOList(employees);
+        }
+
+    public Page<Employee> getAll(int page, int size, String sortBy, String sortDirection) {
+
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+        Pageable pageable = PageRequest.of(page, size, direction, sortBy);
+
+        return employeeRepository.findAll(pageable);
     }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByName(String name) {
-
-        List<Employee> employees = employeeRepository.findEmployeesByName(name);
-        return mapper.toDTOList(employees);
-    }
-
-
-    @Override
-    public Page<EmployeeDTO> getAll(Pageable pageable) {
-        Page<Employee> employees = employeeRepository.findAll(pageable);
-       //return mapper.toDTOList(employees);
-        return employees.map(mapper::toDTO);
-    }
-
 }
 

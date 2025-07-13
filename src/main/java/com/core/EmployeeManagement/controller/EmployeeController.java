@@ -5,10 +5,6 @@ import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,33 +16,34 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-        private final EmployeeService service;
+    private final EmployeeService service;
 
-        public EmployeeController(EmployeeService service) {
-            this.service = service;
-        }
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
+    }
 
-        @GetMapping("/get")
-        public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-            List<EmployeeDTO> employees = service.getAllEmployees();
-            System.out.println("Employees from service: " + employees);
-            return ResponseEntity.ok(employees);
-        }
+    @GetMapping("/get")
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
+        List<EmployeeDTO> employees = service.getAllEmployees();
+        System.out.println("Employees from service: " + employees);
+        return ResponseEntity.ok(employees);
+    }
 
-        @GetMapping("/get/qrs")
-        public ResponseEntity<List<EmployeeDTO>> getQrsEmployees() {
-            List<EmployeeDTO> qrsEmployees = service.getEmployeesByQrsDomain();
-            return ResponseEntity.ok(qrsEmployees);
-        }
+    @GetMapping("/get/qrs")
+    public ResponseEntity<List<EmployeeDTO>> getQrsEmployees() {
+        List<EmployeeDTO> qrsEmployees = service.getEmployeesByQrsDomain();
+        return ResponseEntity.ok(qrsEmployees);
+    }
 
-        @PostMapping("/post")
-        public ResponseEntity<Object> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
-            if (bindingResult.hasErrors()) {
-                return new ResponseEntity<Object>(bindingResult.getFieldErrors(), HttpStatus.BAD_REQUEST);
-            }
-            EmployeeDTO employeeDTO = new EmployeeDTO(employee.getName(), employee.getEmail());
-            return ResponseEntity.ok(service.createEmployee(employeeDTO));
+    @PostMapping("/post")
+    public ResponseEntity<Object> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            //return new ResponseEntity<>(bindingResult.getFieldErrors(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(bindingResult.getFieldErrors(), HttpStatus.BAD_REQUEST);
         }
+        EmployeeDTO employeeDTO = new EmployeeDTO(employee.getName(), employee.getEmail());
+        return ResponseEntity.ok(service.createEmployee(employeeDTO));
+    }
     @GetMapping("/get/domain/qrs")
     public ResponseEntity<List<EmployeeDTO>> getEmployeesByDomain() {
         List<EmployeeDTO> employees = service.getEmployeesByDomain();
@@ -59,14 +56,14 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-   @GetMapping("/page/")
-   public Page<EmployeeDTO> getAll(
-           @RequestParam(defaultValue = "0") int page,
-           @RequestParam(defaultValue = "10") int size,
-           @RequestParam(defaultValue = "id") String sortBy) {
+    @GetMapping("/page")
 
-       Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-       return service.getAll(pageable);
-   }
-
+    public ResponseEntity<Page<Employee>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
+        Page<Employee> employees = service.getAll(page, size, sortBy, sortDirection);
+        return ResponseEntity.ok(employees);
+    }
 }
