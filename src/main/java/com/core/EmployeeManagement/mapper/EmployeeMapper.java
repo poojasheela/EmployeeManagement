@@ -6,19 +6,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
+    @Mapping(source = "name", target = "fullName")
+    @Mapping(source = "email", target = "contactEmail")
+    EmployeeDTO toDTO(Employee employee);
 
     @Mapping(source = "fullName", target = "name")
     @Mapping(source = "contactEmail", target = "email")
-    Employee toEntity(EmployeeDTO dto);
+    Employee toEntity(EmployeeDTO employeeDTO);
 
-    @Mapping(source = "name", target = "fullName")
-    @Mapping(source = "email", target = "contactEmail")
-    EmployeeDTO toDTO(Employee entity);
 
     List<EmployeeDTO> toDTOList(List<Employee> employees);
 }

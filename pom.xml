@@ -101,12 +101,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
-	<!--	<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>7.0.0-M5</version>
-		</dependency>-->
+
 	</dependencies>
 
 	<build>

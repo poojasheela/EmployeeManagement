@@ -8,11 +8,19 @@ import java.util.List;
 
 @Entity
 public class Employee {
+    @Getter
+    @Setter
     @Id
     @GeneratedValue
     private int id;
-    private String name;
-    private String email;
+    @Setter
+    @Getter
+    public String name;
+    @Setter
+    @Getter
+    public String email;
+    @Setter
+    @Getter
     private String password;
 
     public Employee() {}
@@ -23,37 +31,11 @@ public class Employee {
         this.email = email;
         this.password = password;
     }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setDepartment(Department department) {
+        this.department=department;
     }
 }

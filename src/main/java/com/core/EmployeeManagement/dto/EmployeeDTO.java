@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
 public class EmployeeDTO {
 
     @NotBlank(message = "Full name cannot be empty")

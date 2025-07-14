@@ -3,7 +3,9 @@ package com.core.EmployeeManagement.controller;
 import com.core.EmployeeManagement.Employee;
 import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.service.EmployeeService;
+import com.core.EmployeeManagement.service.EmployeeServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService service;
+
+    @Autowired
+    EmployeeServiceImpl employeeService;
 
     public EmployeeController(EmployeeService service) {
         this.service = service;
