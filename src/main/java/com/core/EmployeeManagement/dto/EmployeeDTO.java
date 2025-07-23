@@ -1,10 +1,14 @@
 package com.core.EmployeeManagement.dto;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
 
     @NotBlank(message = "Full name cannot be empty")
@@ -14,26 +18,4 @@ public class EmployeeDTO {
     @Email(message = "Invalid email format")
     private String contactEmail;
 
-    public EmployeeDTO() {}
-
-    public EmployeeDTO(String fullName, String contactEmail) {
-        this.fullName = fullName;
-        this.contactEmail = contactEmail;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
 }

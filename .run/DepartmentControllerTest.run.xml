@@ -1,0 +1,22 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All in EmployeeManagement" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <module name="EmployeeManagement" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.core.EmployeeManagement.test.controller.*" />
+        <option name="ENABLED" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="com.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="com.core.EmployeeManagement.test.controller" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="directory" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

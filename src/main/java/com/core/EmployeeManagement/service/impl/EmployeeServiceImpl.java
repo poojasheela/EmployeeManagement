@@ -1,4 +1,4 @@
-package com.core.EmployeeManagement.service;
+package com.core.EmployeeManagement.service.impl;
 import com.core.EmployeeManagement.dto.EmployeeDTO;
 import com.core.EmployeeManagement.entity.Employee;
 import com.core.EmployeeManagement.exception.DataConflictException;
@@ -6,6 +6,7 @@ import com.core.EmployeeManagement.exception.EmployeeNotFoundException;
 import com.core.EmployeeManagement.exception.InvalidRequestException;
 import com.core.EmployeeManagement.mapper.EmployeeMapper;
 import com.core.EmployeeManagement.repository.EmployeeRepository;
+import com.core.EmployeeManagement.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -100,7 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     !existingEmployee.getEmail().equals(dto.getContactEmail())) {
                 throw new DataConflictException("Email already used by another employee.");
             }
-            
+
             existingEmployee.setName(dto.getFullName());
             existingEmployee.setEmail(dto.getContactEmail());
             employeeRepository.save(existingEmployee);
